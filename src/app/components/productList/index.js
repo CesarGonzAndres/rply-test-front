@@ -12,9 +12,8 @@ class ProductsListContainer extends PureComponent {
     };
   };
 
-  
   async componentDidMount() {
-    await axios.get(`http://localhost:3001/api/products_list`)
+    await axios.get(`/api/products_list`)
       .then((response) => {
         const products = Object.keys(response.data.products).map(i => response.data.products[i])
         this.setState({ 

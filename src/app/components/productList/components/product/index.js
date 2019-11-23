@@ -13,7 +13,7 @@ class ProductContainer extends PureComponent {
   };
 
   async componentDidMount() {
-    await axios.get(`http://localhost:3001/api/product?productSKU=${this.props.product.productSKU}`)
+    await axios.get(`/api/product?productSKU=${this.props.product.productSKU}`)
       .then((response) => {
         const info = response.data.data;
         this.setState({ 
