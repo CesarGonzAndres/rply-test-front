@@ -1,20 +1,55 @@
+
+
 .pointer {
     cursor: pointer;
 }
 
 .smSlide {
-  width: 7rem;
+  width: 3.4rem;
 }
 
 .bgSlide {
-  width: 21em;
-  height: 21em;
+  width: 90%;
+  height: 100%;
+}
+
+@media (min-width: 576px) { 
+  .bgSlide {
+    width: 30rem;
+    height: 100%;
+  }
+}
+
+@media (min-width: 768px) { 
+  .bgSlide {
+    width: 22rem;
+    height: 100%;
+  }
+}
+
+@media (min-width: 992px) { 
+  .bgSlide {
+    width: 31rem;
+  }
 }
 
 .infoContainer {
-  height: 48rem;
+  height: 30rem;;
 }
 
 .full-width {
   width: 100%;
+}
+
+.sideContainer {
+  height: 30rem;
+}
+
+.slick-slider.smSlide.slick-vertical.slick-initialized {
+  height: 23rem;
+}
+
+.highlighted-description > div > p > img {
+  width: 100%;
+  height: 100%;
 }

@@ -6,13 +6,16 @@ import './styles.scss';
 
 class Product extends PureComponent {
   render() {
-    const { productData, handleAppStatus } = this.props;
+    const { productData, handleAppStatus, loading } = this.props;
     return (
       <div className="mr-2 mb-2">
         {productData && 
           <Fragment>
             <div className="cardStyle card">
-              <Carousel className="pointer" images={productData.images} handleAppStatus={handleAppStatus} productData={productData} />
+              {!loading ? 
+                <Carousel loading={loading} className="pointer" images={productData.images} handleAppStatus={handleAppStatus} productData={productData} />
+                : <div className="loader" />
+              }
               <div className="card-body mt-1">
                 <h5 className="card-title mb-0">{productData.attributes[0].value}</h5>
                 <p className="card-text mb-0">{productData.name}</p>

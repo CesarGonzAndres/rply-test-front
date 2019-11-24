@@ -9,7 +9,6 @@ class Carousel extends PureComponent {
     this.state = { 
       defaultImg: 0,
       imageReached: 0,
-      loading: false,
       settings: {
         dots: true,
         infinite: true,

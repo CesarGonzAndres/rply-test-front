@@ -15,7 +15,8 @@ class ProductDetails extends PureComponent {
       slidesToScroll: 1,
       fade: true,
       easing: 'linear',
-      arrows: true
+      arrows: false,
+      swipe: true
     }
   };
 
@@ -29,12 +30,11 @@ class ProductDetails extends PureComponent {
   render() {
     const { nav1, nav2, settings } = this.state;
     const { productSelected, handleAppStatus } = this.props;
-
     return (
       <div className="container">
-        <h3 className="pointer mt-4" onClick={() => handleAppStatus([], 'list')}><i class="fa fa-arrow-left"></i> Atras</h3>
+        <h3 className="pointer mt-4" onClick={() => handleAppStatus([], 'list')}><i className="fa fa-arrow-left"></i> Atras</h3>
         <div className="row">
-          <div className="container col-lg-6 col-md-12 col-sm-12 mt-4 infoContainer">
+          <div className="col-md-7 col-sm-12 col-xs-12 mt-4 infoContainer">
             <div className="row">
               <Slider 
                 asNavFor={nav2}
@@ -45,54 +45,74 @@ class ProductDetails extends PureComponent {
                 className="smSlide"
               >
                 {productSelected.images.map((image, index) => 
-                  <div key={index} className="item">
-                    <img src={`http:${image}`} width="100px" alt="preview" />
+                  <div key={index} className="item pointer">
+                    <img src={`http:${image}`} width="52px" height="45px" alt="preview" />
                   </div>
                 )}
               </Slider>
               <Slider 
                 ref={slider => (this.slider2 = slider)} 
-                asNavFor={nav1} className="bgSlide ml-4" 
+                asNavFor={nav1} className="bgSlide" 
                 {...settings}
               >
                 {productSelected.images.map((image, index) => 
                   <div key={index} className="item">
-                    <img className="bgSlide" src={`http:${image}`} alt="preview" />
+                    <img className="bgSlide img-fluid" src={`http:${image}`} alt="preview" />
                   </div>
                 )}
               </Slider>
             </div>
           </div>
-          <div className="container col-lg-6 col-md-12 col-sm-12 mt-4">
+          <div className="container col-md-5 col-sm-12 col-xs-12 mt-4 sideContainer">
             <h5>{productSelected.attributes[0].value}</h5>
             <h3>{productSelected.name}</h3>
             <small className="text-muted">SKU: {productSelected.partNumber}</small>
             <p>{productSelected.shortDescription}</p>
-            <div className="row space-between">
-              <small className="text-muted ml-2">Normal</small>
-              <del><small className="text-muted mr-2">{productSelected.prices.formattedListPrice}</small></del>
+            <div className="container row space-between">
+              <small className="text-muted">Normal</small>
+              <del><small className="text-muted">{productSelected.prices.formattedListPrice}</small></del>
             </div>
-            <div className="row space-between">
-              <small className="text-muted ml-2">Internet</small>
-              <small className="text-muted mr-2">{productSelected.prices.formattedOfferPrice}</small>
+            <div className="container row space-between">
+              <small className="text-muted">Internet</small>
+              <small className="text-muted">{productSelected.prices.formattedOfferPrice}</small>
+            </div>
+            <div className="container row space-between">
+              <small className="text-muted">Descuento</small>
+              <p className="text-muted">{productSelected.prices.discountPercentage}%</p>
             </div>
           </div>
           <div className="accordion full-width mb-3" id="accordionExample">
-            <div className="card">
+          <div className="card">
               <div className="card-header" id="headingOne">
                 <h2 className="mb-0">
                   <button className="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    ESPECIFICACIONES
+                    DESCRIPCIÓN
                   </button>
                 </h2>
               </div>
               <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div className="card-body highlighted-description"> 
+                  {
+                    <div dangerouslySetInnerHTML={{ __html: productSelected.longDescription }} />
+                  }
+                </div>
+              </div>
+            </div>
+            <div className="card">
+              <div className="card-header" id="headingTwo">
+                <h2 className="mb-0">
+                  <button className="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    ESPECIFICACIONES
+                  </button>
+                </h2>
+              </div>
+              <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div className="card-body">
                   <table className="table table-striped">
                     <tbody>
                       {
-                        productSelected.attributes.map(attrib => 
-                          <tr>
+                        productSelected.attributes.map((attrib, index) => 
+                          <tr key={index}>
                             <td>
                               {attrib.name}
                             </td>
@@ -108,14 +128,14 @@ class ProductDetails extends PureComponent {
               </div>
             </div>
             <div className="card">
-              <div className="card-header" id="headingTwo">
+              <div className="card-header" id="headingThree">
                 <h2 className="mb-0">
-                  <button className="btn btn-info collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  <button className="btn btn-info collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                     GARANTÍA LEGAL Y DEVOLUCIONES
                   </button>
                 </h2>
               </div>
-              <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div className="card-body">
                   <h3>GARANTÍA LEGAL Y DEL FABRICANTE</h3>
                   <p>La Garantía legal establece la cobertura dentro de los 3 primeros meses de adquirido el producto 

@@ -8,11 +8,12 @@ class ProductContainer extends PureComponent {
     super(props);
     this.state = { 
       previewImages: [], 
-      loading: false  
+      loading: false
     };
   };
 
   async componentDidMount() {
+    this.setState({ loading: true });
     await axios.get(`/api/product?productSKU=${this.props.product.productSKU}`)
       .then((response) => {
         const info = response.data.data;
@@ -24,10 +25,10 @@ class ProductContainer extends PureComponent {
   }
 
   render() {
-    const { productData } = this.state;
+    const { productData, loading } = this.state;
     const { handleAppStatus } = this.props;
     return (
-      <Product productData={productData} handleAppStatus={handleAppStatus} />
+      <Product productData={productData} loading={loading} handleAppStatus={handleAppStatus} />
     );
   }
 }
