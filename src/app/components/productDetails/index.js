@@ -1,66 +1,66 @@
 import React, { PureComponent } from 'react';
-import Slider from "react-slick";
 import './styles.scss';
+import axios from 'axios';
+import { Link } from "react-router-dom";
+import ImagesContainer from './components/imagesContainer';
 
 class ProductDetails extends PureComponent {
 
-  state = {
-    nav1: null,
-    nav2: null,
-    settings: {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      fade: true,
-      easing: 'linear',
-      arrows: false,
-      swipe: true
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      nav1: null,
+      nav2: null,
+      settings: {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        fade: true,
+        easing: 'linear',
+        arrows: false,
+        swipe: true
+      },
+    };
+  }
 
-  async componentDidMount() {
-    this.setState({
+  componentDidMount() {
+    this.getProductData();
+    this.setState({ 
+      loading: true,
       nav1: this.slider1,
       nav2: this.slider2
     });
   }
 
+  async getProductData() {
+    const { match: { params } } = this.props;
+    await axios.get(`/api/product?productSKU=${params.productSKU}`)
+      .then((response) => {
+        const info = response.data.data;
+        this.setState({ 
+          productSelected: JSON.parse(info), 
+          loading: false
+        });
+    });
+  }
+
   render() {
-    const { nav1, nav2, settings } = this.state;
-    const { productSelected, handleAppStatus } = this.props;
+    const { nav1, nav2, settings, productSelected, loading } = this.state;
+    console.log(nav1, nav2);
     return (
       <div className="container">
-        <h3 className="pointer mt-4" onClick={() => handleAppStatus([], 'list')}><i className="fa fa-arrow-left"></i> Atras</h3>
-        <div className="row">
+        <Link to={`/`}>
+          <h3 className="pointer mt-4" ><i className="fa fa-arrow-left"></i> Atras</h3>
+        </Link>
+        {
+          loading && <div className="loader" />
+        }
+        {productSelected && <div className="row">
           <div className="col-md-7 col-sm-12 col-xs-12 mt-4 infoContainer">
             <div className="row">
-              <Slider 
-                asNavFor={nav2}
-                slidesToShow={productSelected.images.length}
-                vertical={true}
-                swipeToSlide={true}
-                focusOnSelect={true}
-                className="smSlide"
-              >
-                {productSelected.images.map((image, index) => 
-                  <div key={index} className="item pointer">
-                    <img src={`http:${image}`} width="52px" height="45px" alt="preview" />
-                  </div>
-                )}
-              </Slider>
-              <Slider 
-                ref={slider => (this.slider2 = slider)} 
-                asNavFor={nav1} className="bgSlide" 
-                {...settings}
-              >
-                {productSelected.images.map((image, index) => 
-                  <div key={index} className="item">
-                    <img className="bgSlide img-fluid" src={`http:${image}`} alt="preview" />
-                  </div>
-                )}
-              </Slider>
+              <ImagesContainer nav1={nav1} nav2={nav2} images={productSelected.images} settings={settings}  />
             </div>
           </div>
           <div className="container col-md-5 col-sm-12 col-xs-12 mt-4 sideContainer">
@@ -93,7 +93,7 @@ class ProductDetails extends PureComponent {
               <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div className="card-body highlighted-description"> 
                   {
-                    <div dangerouslySetInnerHTML={{ __html: productSelected.longDescription }} />
+                    <div dangerouslySetInnerHTML={{ __html: productSelected && productSelected.longDescription }} />
                   }
                 </div>
               </div>
@@ -111,7 +111,7 @@ class ProductDetails extends PureComponent {
                   <table className="table table-striped">
                     <tbody>
                       {
-                        productSelected.attributes.map((attrib, index) => 
+                        productSelected && productSelected.attributes.map((attrib, index) => 
                           <tr key={index}>
                             <td>
                               {attrib.name}
@@ -150,7 +150,7 @@ class ProductDetails extends PureComponent {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     );
   }

@@ -1,10 +1,27 @@
 .card {
   &.cardStyle {
     border: 0;
-    width: 22rem;;
   }
   img {
     cursor: pointer;
+  }
+}
+
+@media (min-width: 576px) { 
+  .cardStyle {
+    width: 30rem;
+  }
+}
+
+@media (min-width: 768px) { 
+  .cardStyle {
+    width: 12rem;
+  }
+}
+
+@media (min-width: 992px) { 
+  .cardStyle {
+    width: 17rem;
   }
 }
 

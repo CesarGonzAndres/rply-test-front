@@ -13,17 +13,28 @@
   height: 100%;
 }
 
+@media only screen and (min-width : 320px) {
+  .bgSlide {
+    width: 20rem;
+  }
+}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (min-width : 480px) {
+  .bgSlide {
+    width: 26rem;
+  }
+}
+
 @media (min-width: 576px) { 
   .bgSlide {
     width: 30rem;
-    height: 100%;
   }
 }
 
 @media (min-width: 768px) { 
   .bgSlide {
     width: 22rem;
-    height: 100%;
   }
 }
 
@@ -34,7 +45,7 @@
 }
 
 .infoContainer {
-  height: 30rem;;
+  height: 24rem;;
 }
 
 .full-width {

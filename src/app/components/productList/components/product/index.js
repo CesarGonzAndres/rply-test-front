@@ -8,7 +8,7 @@ class ProductContainer extends PureComponent {
     super(props);
     this.state = { 
       previewImages: [], 
-      loading: false
+      loading: true
     };
   };
 
